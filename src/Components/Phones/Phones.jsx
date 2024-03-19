@@ -1,11 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis,  Tooltip, } from 'recharts';
+import { Audio, Grid } from 'react-loader-spinner';
+
 
 
 const Phones = () => {
     
     const [phones, setPhones] = useState();
+    const [loading, setLoading] = useState(true);
 
     useEffect(() =>{
         // fetch('https://openapi.programming-hero.com/api/phones?search=iphone')
@@ -23,20 +26,41 @@ const Phones = () => {
                 return obj;
             })
             // console.log(phoneWithFakeData);
-            setPhones(phoneWithFakeData)
+            setPhones(phoneWithFakeData);
+            setLoading(false);
         });
     })
 
     return (
         <div>
-            {/* <h2 className="text-5xl">Phone: {phones.length}</h2> */}
-            <h2>Phone: {phones.length}</h2>
+            {loading && <div>
+                <Audio
+                height="80"
+                width="80"
+                radius="9"
+                color="green"
+                ariaLabel="three-dots-loading"
+                wrapperStyle
+                wrapperClass
+            />
+            <Grid
+                visible={true}
+                height="80"
+                width="80"
+                color="#4fa94d"
+                ariaLabel="grid-loading"
+                radius="12.5"
+                wrapperStyle={{}}
+                wrapperClass="grid-wrapper"
+            />
+                </div>}
             <BarChart width={1200} height={400} data={phones}>
                 <Bar dataKey="price" fill="#8884d8" />
                 <XAxis dataKey="name"></XAxis>
                 <YAxis></YAxis>
                 <Tooltip></Tooltip>
             </BarChart>
+            
         </div>
     );
 };
